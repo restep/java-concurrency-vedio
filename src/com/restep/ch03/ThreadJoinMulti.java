@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
  * @author restep
  * @date 2019/5/10
  */
-public class ThreadJoin {
+public class ThreadJoinMulti {
     public static void main(String[] args) {
         Thread thread1 = new Thread(new Runnable() {
             @Override

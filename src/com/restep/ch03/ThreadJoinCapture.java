@@ -1,10 +1,11 @@
 package com.restep.ch03;
 
 /**
+ * 模拟收集数据 统计数据收集的时间
  * @author restep
  * @date 2019/5/10
  */
-public class ThreadJoin3 {
+public class ThreadJoinCapture {
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
 

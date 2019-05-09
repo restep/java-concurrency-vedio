@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
  * @author restep
  * @date 2019/5/10
  */
-public class ThreadJoin2 {
+public class ThreadJoinSingle {
     public static void main(String[] args) {
         Thread firstThread = new Thread(new Runnable() {
             @Override
