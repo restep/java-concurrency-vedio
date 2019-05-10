@@ -1,8 +1,8 @@
 package com.restep.ch01;
 
 /**
- * 线程非安全 TODO
- *
+ * 线程非安全
+ * com.restep.ch04.TicketWindowThreadSafe 线程安全
  * @author restep
  * @date 2019/5/9
  */
