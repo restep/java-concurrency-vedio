@@ -34,7 +34,7 @@ public class SimpleThreadPool extends Thread {
 
     private final DiscardPolicy discardPolicy;
 
-    public static final DiscardPolicy DEFAULT_DISCARD_POLICY = new DiscardPolicy() {
+    private static final DiscardPolicy DEFAULT_DISCARD_POLICY = new DiscardPolicy() {
         @Override
         public void discard() throws DiscardException {
             throw new DiscardException("discard this task");
@@ -142,13 +142,6 @@ public class SimpleThreadPool extends Thread {
         }
     }
 
-    private enum TaskState {
-        FREE,
-        RUNNING,
-        BLOCKED,
-        DEAD
-    }
-
     private static class WorkTask extends Thread {
         private volatile TaskState taskState = TaskState.FREE;
 
@@ -198,12 +191,6 @@ public class SimpleThreadPool extends Thread {
         }
     }
 
-    public static class DiscardException extends RuntimeException {
-        public DiscardException(String message) {
-            super(message);
-        }
-    }
-
     public void shutdown() {
         while (!TASK_QUEUE.isEmpty()) {
             try {
@@ -237,72 +224,5 @@ public class SimpleThreadPool extends Thread {
 
         this.destroy = true;
         System.out.println("the thread pool disposed");
-    }
-
-    /**
-     * 拒绝策略
-     */
-    public interface DiscardPolicy {
-        void discard() throws DiscardException;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public int getQUEUE_SIZE() {
-        return QUEUE_SIZE;
-    }
-
-    public boolean hasDestory() {
-        return this.destroy;
-    }
-
-    public int getMin() {
-        return min;
-    }
-
-    public int getMax() {
-        return max;
-    }
-
-    public int getActive() {
-        return active;
-    }
-
-    public static void main(String[] args) {
-        SimpleThreadPool threadPool = new SimpleThreadPool();
-
-        IntStream.rangeClosed(0, 40).forEach(i -> {
-            threadPool.submit(new Runnable() {
-                @Override
-                public void run() {
-                    System.out.println("the runnable " + i + " be serviced by " + Thread.currentThread() + " start");
-                    try {
-                        Thread.sleep(3_000L);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println("the runnable " + i + " be serviced by " + Thread.currentThread() + " finished");
-                }
-            });
-        });
-
-        try {
-            Thread.sleep(10_000L);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        threadPool.shutdown();
-
-        /*
-        threadPool.submit(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("========");
-            }
-        });
-        */
     }
 }
