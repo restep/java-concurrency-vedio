@@ -11,8 +11,6 @@ package com.restep.pattern.ch04;
 public class ReadWriteLock {
     //读的线程数量
     private int read = 0;
-    //等待读的线程数量
-    private int toRead = 0;
     //写的线程数量
     private int write = 0;
     //等待写的线程数量
@@ -29,20 +27,13 @@ public class ReadWriteLock {
     }
 
     public synchronized void readLock() throws InterruptedException {
-        //正在尝试竞争读锁 等待读的线程数量+1
-        this.toRead++;
-
         //存在写线程 则等待
-        try {
-            while (write > 0 || (preferWrite && toWrite > 0)) {
-                this.wait();
-            }
-
-            //如果不存在正在写的线程 则读线程+1
-            this.read++;
-        } finally {
-            this.toRead--;
+        while (write > 0 || (preferWrite && toWrite > 0)) {
+            this.wait();
         }
+
+        //如果不存在正在写的线程 则读线程+1
+        this.read++;
     }
 
     public synchronized void readUnlock() {
