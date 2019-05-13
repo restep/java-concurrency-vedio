@@ -40,10 +40,4 @@ public abstract class ObserverRunnable implements Runnable {
             return throwable;
         }
     }
-
-    public enum RunnableState {
-        RUNNING,
-        ERROR,
-        DONE
-    }
 }
