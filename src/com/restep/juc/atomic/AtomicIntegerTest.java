@@ -1,4 +1,4 @@
-package com.restep.juc.ch01;
+package com.restep.juc.atomic;
 
 import java.util.Collections;
 import java.util.HashSet;

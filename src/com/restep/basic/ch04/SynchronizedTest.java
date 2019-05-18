@@ -2,7 +2,7 @@ package com.restep.basic.ch04;
 
 /**
  * jconsole jstack
- * 汇编指令 D:\Repositories\java-concurrency-vedio\out\com\restep\ch04>javap -c TicketWindowThreadSafe.class
+ * 汇编指令 D:\Repositories\java-concurrency-vedio\out\com\restep\exchanger>javap -c TicketWindowThreadSafe.class
  * @author restep
  * @date 2019/5/10
  */

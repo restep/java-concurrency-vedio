@@ -1,4 +1,4 @@
-package com.restep.juc.ch01;
+package com.restep.juc.atomic;
 
 /**
  * @author restep
