@@ -8,39 +8,37 @@ import java.util.concurrent.*;
  */
 public class ThreadPoolExecutorBuild {
     public static void main(String[] args) {
-        ThreadPoolExecutor executorService = (ThreadPoolExecutor) buildThreadPoolExecutor();
+        ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) buildThreadPoolExecutor();
+
         int activeCount = -1;
         int queueSize = -1;
 
         while (true) {
-            if (activeCount != executorService.getActiveCount()
-                    || queueSize != executorService.getQueue().size()) {
-                System.out.println("ActiveCount: " + executorService.getActiveCount());
-                System.out.println("CorePoolSize: " + executorService.getCorePoolSize());
-                System.out.println("QueueSize: " + executorService.getQueue().size());
-                System.out.println("MaximumPoolSize: " + executorService.getMaximumPoolSize());
+            if (activeCount != threadPoolExecutor.getActiveCount()
+                    || queueSize != threadPoolExecutor.getQueue().size()) {
+                System.out.println("getActiveCount(): " + threadPoolExecutor.getActiveCount());
+                System.out.println("getCorePoolSize(): " + threadPoolExecutor.getCorePoolSize());
+                System.out.println("getQueue().size(): " + threadPoolExecutor.getQueue().size());
+                System.out.println("getMaximumPoolSize(): " + threadPoolExecutor.getMaximumPoolSize());
 
-                activeCount = executorService.getActiveCount();
-                queueSize = executorService.getQueue().size();
-                System.out.println("==================================");
+                activeCount = threadPoolExecutor.getActiveCount();
+                queueSize = threadPoolExecutor.getQueue().size();
+                System.out.println("================================");
             }
         }
     }
 
     private static ExecutorService buildThreadPoolExecutor() {
-        ExecutorService executorService = new ThreadPoolExecutor(
-                1, 2, 30,
-                TimeUnit.SECONDS, new ArrayBlockingQueue<>(1),
-                new ThreadFactory() {
-                    @Override
-                    public Thread newThread(Runnable r) {
-                        Thread thread = new Thread(r);
-                        return thread;
-                    }
-                },
-                new ThreadPoolExecutor.AbortPolicy()
-        );
-        System.out.println("the ThreadPoolExecutor create done");
+        ExecutorService executorService = new ThreadPoolExecutor(1, 2, 30,
+                TimeUnit.SECONDS, new ArrayBlockingQueue<>(1), new ThreadFactory() {
+            @Override
+            public Thread newThread(Runnable runnable) {
+                Thread thread = new Thread(runnable);
+
+                return thread;
+            }
+        }, new ThreadPoolExecutor.AbortPolicy());
+        System.out.println("The ThreadPoolExecutor create done");
 
         executorService.execute(new Runnable() {
             @Override
@@ -52,14 +50,14 @@ public class ThreadPoolExecutorBuild {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
-                sleepSeconds(100L);
+                sleepSeconds(10L);
             }
         });
 
         executorService.execute(new Runnable() {
             @Override
             public void run() {
-                sleepSeconds(100L);
+                sleepSeconds(10L);
             }
         });
 
@@ -68,7 +66,7 @@ public class ThreadPoolExecutorBuild {
 
     private static void sleepSeconds(long seconds) {
         try {
-            System.out.println("* " + Thread.currentThread().getName() + " *");
+            System.out.println(">>>" + Thread.currentThread().getName() + "<<<");
             TimeUnit.SECONDS.sleep(seconds);
         } catch (InterruptedException e) {
             e.printStackTrace();

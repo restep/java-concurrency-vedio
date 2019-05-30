@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
  */
 public class ExecutorsTest {
     public static void main(String[] args) {
-        useSinglePool();
+        useFixedSizePool();
     }
 
     private static void useSinglePool() {
@@ -58,7 +58,7 @@ public class ExecutorsTest {
 
     private static void useCachedThreadPool() {
         ExecutorService executorService = Executors.newCachedThreadPool();
-        System.out.println(((ThreadPoolExecutor) executorService).getActiveCount());
+        System.out.println("getActiveCount(): " + ((ThreadPoolExecutor) executorService).getActiveCount());
 
         executorService.execute(new Runnable() {
             @Override
@@ -67,7 +67,7 @@ public class ExecutorsTest {
             }
         });
 
-        System.out.println(((ThreadPoolExecutor) executorService).getActiveCount());
+        System.out.println("getActiveCount(): " + ((ThreadPoolExecutor) executorService).getActiveCount());
 
         IntStream.range(0, 100).boxed().forEach(i -> executorService.execute(() -> {
             try {
@@ -85,6 +85,6 @@ public class ExecutorsTest {
             e.printStackTrace();
         }
 
-        System.out.println(((ThreadPoolExecutor) executorService).getActiveCount());
+        System.out.println("getActiveCount(): " + ((ThreadPoolExecutor) executorService).getActiveCount());
     }
 }

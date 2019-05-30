@@ -8,10 +8,10 @@ import java.util.stream.IntStream;
  * @date 2019/5/19
  */
 public class ThreadPoolExecutorTask {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         ExecutorService executorService = new ThreadPoolExecutor(
                 10, 20, 30,
-                TimeUnit.SECONDS, new ArrayBlockingQueue<>(1),
+                TimeUnit.SECONDS, new ArrayBlockingQueue<>(10),
                 new ThreadFactory() {
                     @Override
                     public Thread newThread(Runnable r) {
@@ -33,12 +33,9 @@ public class ThreadPoolExecutorTask {
                 })
         );
 
+        //shutdown()是非阻塞方法
         executorService.shutdown();
-        try {
-            executorService.awaitTermination(1, TimeUnit.HOURS);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        executorService.awaitTermination(1, TimeUnit.HOURS);
         System.out.println("============================");
     }
 }
