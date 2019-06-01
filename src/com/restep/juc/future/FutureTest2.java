@@ -6,12 +6,12 @@ import java.util.concurrent.*;
  * @author restep
  * @date 2019/5/21
  */
-public class FutureTest {
+public class FutureTest2 {
     public static void main(String[] args) throws ExecutionException, InterruptedException, TimeoutException {
-        getWithTimeout();
+        isDone();
     }
 
-    private static void get() throws ExecutionException, InterruptedException {
+    private static void isDone() throws ExecutionException, InterruptedException {
         ExecutorService executorService = Executors.newCachedThreadPool();
 
         Future<Integer> future = executorService.submit(new Callable<Integer>() {
@@ -23,23 +23,9 @@ public class FutureTest {
             }
         });
 
-        System.out.println("======== i will be printed quickly ============");
-
-        Thread callerThread = Thread.currentThread();
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    TimeUnit.MILLISECONDS.sleep(3L);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                callerThread.interrupt();
-            }
-        }.start();
-
-        System.out.println("future.get(): " + future.get());
+        Integer result = future.get();
+        System.out.println("result: " + result);
+        System.out.println("future.isDone(): " + future.isDone());
     }
 
     private static void getWithTimeout() throws ExecutionException, InterruptedException, TimeoutException {
